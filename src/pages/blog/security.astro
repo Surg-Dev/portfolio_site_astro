@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import BlogPostCard from "../../components/BlogPostCard.astro";
+
+const allPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+// Sort descending by date (reverse chronological order)
+allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const securityPosts = allPosts.filter(
+    (post) => post.data.category === "Security Writeup"
+);
+---
+
+<BaseLayout title="Security Writeups">
+    <section class="mb-16 animate-fade-in">
+        <h1 class="text-4xl font-extrabold tracking-tight mb-8">Blog Posts</h1>
+
+        <div class="flex gap-4 mb-8 border-b border-border-subtle pb-4">
+            <a
+                href="/blog"
+                class="px-4 py-2 bg-bg-surface border border-border-subtle rounded-lg text-text-muted font-medium hover:bg-border-subtle transition-colors"
+                >General</a
+            >
+            <a
+                href="/blog/security"
+                class="px-4 py-2 bg-bg-surface border border-text-accent rounded-lg text-text-base font-medium hover:bg-border-subtle transition-colors"
+                >Security Writeups</a
+            >
+        </div>
+
+        <div class="block">
+            <h2 class="sr-only">Security Writeups</h2>
+            <div class="grid grid-cols-1 gap-6">
+                {securityPosts.map((post) => <BlogPostCard post={post} />)}
+                {
+                    securityPosts.length === 0 && (
+                        <p class="text-text-muted italic">No posts yet.</p>
+                    )
+                }
+            </div>
+        </div>
+    </section>
+</BaseLayout>

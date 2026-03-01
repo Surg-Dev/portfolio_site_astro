@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="404 - Page Not Found">
+    <section
+        class="mb-16 animate-fade-in flex flex-col items-center justify-center text-center mt-20"
+    >
+        <h1
+            class="text-6xl font-extrabold tracking-tight mb-6 text-text-accent"
+        >
+            404
+        </h1>
+        <h2 class="text-2xl font-bold mb-4">Page Not Found</h2>
+        <p class="text-text-muted max-w-lg mb-8 leading-relaxed">
+            The page you are looking for doesn't exist or has been moved. If you
+            are looking for one of my older security writeups, they have been
+            relocated!
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+            <a
+                href="/blog/security"
+                class="px-6 py-3 bg-bg-surface border border-text-accent rounded-lg text-text-base font-bold hover:bg-border-subtle transition-all shadow-lg hover:shadow-xl"
+            >
+                View Security Writeups
+            </a>
+            <a
+                href="/"
+                class="px-6 py-3 bg-bg-surface border border-border-subtle rounded-lg text-text-muted font-bold hover:bg-border-subtle hover:text-text-base transition-all"
+            >
+                Go Home
+            </a>
+        </div>
+    </section>
+</BaseLayout>

@@ -1,0 +1,48 @@
+---
+export interface Props {
+    title: string;
+    venue: string;
+    authors: string;
+    link: string;
+    condensed?: boolean;
+}
+
+const { title, venue, authors, link, condensed = false } = Astro.props;
+---
+
+<div
+    class={`group border-l-2 border-border-subtle hover:border-text-accent transition-colors ${
+        condensed ? "pl-4 py-1" : "pl-6 py-2"
+    }`}
+>
+    <h3
+        class={`font-bold text-text-base mb-1 ${
+            condensed ? "text-lg" : "text-xl mb-2"
+        }`}
+    >
+        <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group-hover:text-text-accent transition-colors"
+        >
+            {title}
+        </a>
+    </h3>
+    <p
+        class={`text-sm text-text-muted ${
+            condensed ? "mb-1" : "font-medium text-text-accent mb-3"
+        }`}
+    >
+        {
+            condensed ? (
+                <span class="font-medium text-text-accent">{venue}</span>
+            ) : (
+                venue
+            )
+        }
+    </p>
+    <p class={`text-sm text-text-muted ${condensed ? "leading-snug" : ""}`}>
+        {authors}
+    </p>
+</div>

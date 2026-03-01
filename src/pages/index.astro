@@ -1,0 +1,225 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { publications } from "../data/publications";
+import ProjectCard from "../components/ProjectCard.astro";
+import ResearchPublication from "../components/ResearchPublication.astro";
+import BlogPostCard from "../components/BlogPostCard.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import battelleLogo from "../assets/battelle.jpeg"
+import tllogo from "../assets/theorielearn.png"
+import awsLogo from "../assets/aws.png";
+import meImg from "../assets/me-uiuc.jpg";
+import wraithLogo from "../assets/wraith.png";
+
+const allPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const latestPosts = allPosts.slice(0, 3);
+
+const projects = [
+	{
+		category: "Work",
+		title: "TheorieLearn",
+		description:
+			"TheorieLearn is an open source project initially started to produce autograded exercises for TCS courses at UIUC. We build elements, exercises, and assessments that can be used to teach theoretical CS concpets at scale. I have used Python & JS to develop custom elements & new questions, as well as my role as technical lead mangaging multiple developers.",
+		image: tllogo,
+		linkTo: "https://theorielearn.github.io/",
+	},
+	{
+		category: "Project",
+		title: "WRAITH",
+		description:
+			"WRAITH is a media accelerator taped out on TSMC's 65nm process. It has a 4x4 CGRA mesh, with 2 RISC-V cores which reuse the functional units inside of the mesh. I developed the core mesh and the RISC-V caches in SystemVerilog. I also went through the PD flow with Synopsys and Cadence tooling (Design Compiler, Innovus, Virtuoso), along with writing the necessary Tcl scripts.",
+		image: wraithLogo,
+		linkTo: "https://github.com/wraith-chip/wraith-oss",
+	},	
+	{
+		category: "Work",
+		title: "Battelle",
+		description:
+			"I was a Vulnerability & RE intern. I worked with mobile device classes and communication between them over specific transmission stacks. I worked on some harnessing with AFL, as well as scripting with Binary Ninja.",
+		image: battelleLogo,
+		linkTo: "https://www.battelle.org/"
+	},
+	{
+		category: "Work",
+		title: "Amazon",
+		description:
+			"I worked within AWS in the Commerce Platform Entities team. I worked on a front-end console, built in React+Typescript, to speed up modification and deployment of worldwide legal entities. I also worked on an interactive map to display coverage of various AWS entities.",
+		image: awsLogo,
+		linkTo: "https://aws.amazon.com/",
+	},
+];
+---
+
+<BaseLayout title="Sam Ruggerio">
+	<section
+		class="mb-16 animate-fade-in flex flex-col md:flex-row gap-8 items-start"
+	>
+		<div class="grow">
+			<h1 class="text-4xl font-extrabold tracking-tight mb-6">
+				Hello, I'm Sam
+			</h1>
+			<div
+				class="prose prose-invert max-w-none text-text-muted leading-relaxed"
+			>
+				<p class="mb-4">
+					I am a PhD student at UIUC studying Computer Science. I'm
+					currently doing research in Theoretical Computer Science and
+					Graphics. I have software engineering experience at Amazon
+					doing front-end development with React and Typescript. I
+					also have a strong interest in teaching and pedagogy for
+					computer science.
+				</p>
+
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+					<div>
+						<h3 class="text-xl font-bold text-text-base mb-3">
+							I actively work with:
+						</h3>
+						<ul class="list-disc list-inside space-y-1">
+							<li>C/C++</li>
+							<li>Python</li>
+							<li>Assembly &amp; Reverse Engineering Tools</li>
+							<li>JS/TS/HTML/CSS</li>
+						</ul>
+					</div>
+					<div>
+						<h3 class="text-xl font-bold text-text-base mb-3">
+							I have experience with:
+						</h3>
+						<ul class="list-disc list-inside space-y-1">
+							<li>Verilog</li>
+							<li>Haskell</li>
+							<li>OpenCV</li>
+							<li>Java</li>
+							<li>
+								Game Development IDEs (Gamemaker/Unity/Unreal)
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<p class="mt-8">
+					You can follow some of my work on my <a
+						href="https://github.com/Surg-Dev"
+						class="text-text-accent hover:underline">Github</a
+					> or <a
+						href="https://twitter.com/Sam_Ruggerio"
+						class="text-text-accent hover:underline">Twitter</a
+					>.
+				</p>
+			</div>
+		</div>
+		<div
+			class="w-48 h-48 shrink-0 md:mt-0 mt-8 mx-auto md:mx-0 overflow-hidden rounded-2xl shadow-xl border border-border-subtle"
+		>
+			<Image
+				src={meImg}
+				alt="Sam Ruggerio"
+				class="w-full h-full object-cover scale-[1.7] origin-[50%_30%] brightness-90 transition-all"
+			/>
+		</div>
+	</section>
+
+	<section class="mb-16">
+		<div
+			class="flex items-baseline justify-between mb-6 border-b border-border-subtle pb-2"
+		>
+			<h2 class="text-2xl font-bold">Research Publications</h2>
+			<a
+				href="/research"
+				class="text-sm font-medium text-text-accent hover:underline"
+				>View All &rarr;</a
+			>
+		</div>
+		<div class="space-y-4">
+			{
+				publications
+					.slice(0, 3)
+					.map((pub) => (
+						<ResearchPublication {...pub} condensed={true} />
+					))
+			}
+		</div>
+	</section>
+
+	<section class="mb-16">
+		<h2 class="text-2xl font-bold mb-6 border-b border-border-subtle pb-2">
+			Projects &amp; Work
+		</h2>
+		<div class="grid grid-cols-1 gap-8">
+			{projects.map((project) => <ProjectCard {...project} />)}
+		</div>
+	</section>
+
+	<section class="mb-16">
+		<div
+			class="flex items-baseline justify-between mb-6 border-b border-border-subtle pb-2"
+		>
+			<h2 class="text-2xl font-bold">Latest Blog Posts</h2>
+			<a
+				href="/blog"
+				class="text-sm font-medium text-text-accent hover:underline"
+				>View All &rarr;</a
+			>
+		</div>
+		<div class="flex flex-col gap-4">
+			{
+				latestPosts.map((post) => (
+					<BlogPostCard post={post} compact={true} />
+				))
+			}
+		</div>
+	</section>
+
+	<section class="mb-6">
+		<h2 class="text-2xl font-bold mb-6 border-b border-border-subtle pb-2">
+			<!-- Get in Touch -->
+		</h2>
+		<div
+			class="bg-bg-surface border border-border-subtle rounded-xl p-8 text-center max-w-2xl mx-auto"
+		>
+			<h3 class="text-xl font-bold text-text-base mb-4">Contact Me</h3>
+			<p class="text-text-muted leading-relaxed">
+				Feel free to reach out to me about any opportunities, collaborations,
+				or just to say hi!
+			</p>
+			<p class="text-text-base mb-8 leading-relaxed">
+				samruggerio (at) surg.dev 
+			</p>
+			<div class="flex flex-wrap items-center justify-center gap-4">
+				<a
+					href="mailto:samruggerio@surg.dev"
+					class="px-6 py-3 bg-white text-[#111] font-bold rounded-full hover:bg-gray-200 transition-colors"
+				>
+					Email Me
+				</a>
+				<a
+					href="https://github.com/Surg-Dev"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="px-6 py-3 border border-border-subtle text-text-base font-bold rounded-full hover:border-text-accent hover:text-text-accent transition-colors"
+				>
+					GitHub
+				</a>
+				<a
+					href="https://linkedin.com/in/surgdev"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="px-6 py-3 border border-border-subtle text-text-base font-bold rounded-full hover:border-text-accent hover:text-text-accent transition-colors"
+				>
+					LinkedIn
+				</a>
+				<a
+					href="https://twitter.com/Sam_Ruggerio"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="px-6 py-3 border border-border-subtle text-text-base font-bold rounded-full hover:border-text-accent hover:text-text-accent transition-colors"
+				>
+					Twitter
+				</a>
+			</div>
+		</div>
+	</section>
+</BaseLayout>

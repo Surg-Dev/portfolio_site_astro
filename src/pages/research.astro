@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import { publications } from "../data/publications";
+import ResearchPublication from "../components/ResearchPublication.astro";
+---
+
+<BaseLayout title="Research Publications">
+    <section class="mb-16 animate-fade-in">
+        <h1 class="text-4xl font-extrabold tracking-tight mb-8">
+            Research Publications
+        </h1>
+        <div class="space-y-8">
+            {publications.map((pub) => <ResearchPublication {...pub} />)}
+            {
+                publications.length === 0 && (
+                    <p class="text-text-muted italic">
+                        No publications listed yet.
+                    </p>
+                )
+            }
+        </div>
+    </section>
+</BaseLayout>

@@ -1,0 +1,48 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+export interface Props {
+    category: string;
+    title: string;
+    description: string;
+    image: ImageMetadata;
+    linkTo: string;
+}
+
+const { category, title, description, image, linkTo } = Astro.props;
+---
+
+<a
+    href={linkTo}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="group block bg-bg-surface border border-border-subtle rounded-xl p-6 transition-all hover:border-text-muted hover:shadow-lg"
+>
+    <div class="flex flex-col md:flex-row gap-6 items-start">
+        <div
+            class="w-16 h-16 flex-shrink-0 bg-white rounded-lg p-2 overflow-hidden flex items-center justify-center"
+        >
+            <Image
+                src={image}
+                alt={title}
+                class="max-w-full max-h-full object-contain"
+            />
+        </div>
+        <div>
+            <div
+                class="text-xs font-semibold uppercase tracking-wider text-text-accent mb-1"
+            >
+                {category}
+            </div>
+            <h3
+                class="text-xl font-bold text-text-base mb-2 group-hover:text-text-accent transition-colors"
+            >
+                {title}
+            </h3>
+            <p class="text-text-muted text-sm leading-relaxed">
+                {description}
+            </p>
+        </div>
+    </div>
+</a>

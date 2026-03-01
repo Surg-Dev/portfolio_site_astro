@@ -1,0 +1,59 @@
+---
+import "../styles/global.css";
+import Navigation from "../components/Navigation.astro";
+import { ClientRouter } from "astro:transitions";
+
+interface Props {
+    title: string;
+    description?: string;
+}
+
+const { title, description = "Sam Ruggerio's Portfolio Website" } = Astro.props;
+const pathname = new URL(Astro.request.url).pathname;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Katex -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"
+            integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ"
+            crossorigin="anonymous"
+        />
+        <meta charset="UTF-8" />
+        <meta name="description" content={description} />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        
+        <meta property="og:title" content={title}/>
+        <meta property="og:site_name" content="Sam Ruggerio's Portfolio"/>
+        <meta property="og:url" content={pathname}/>
+        <meta property="og:description" content={description}/>
+        <meta property="og:type" content="website"/>
+
+        <meta property="twitter:card" content="summary"/>
+        <meta property="twitter:creator" content="Sam Ruggerio"/>
+        <meta property="twitter:title" content={title}/>
+        <meta property="twitter:description" content={description}/>
+
+        <title>{title} · Portfolio</title>
+        <ClientRouter />
+    </head>
+    <body
+        class="bg-bg-base text-text-base font-sans antialiased max-w-4xl mx-auto px-6 lg:px-8 min-h-screen flex flex-col"
+    >
+        <Navigation />
+        <main class="grow">
+            <slot />
+        </main>
+        <footer
+            class="py-12 text-center text-sm text-text-muted border-t border-border-subtle"
+        >
+            <p>
+                &copy; {new Date().getFullYear()} Sam Ruggerio. All rights reserved.
+            </p>
+        </footer>
+    </body>
+</html>

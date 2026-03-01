@@ -1,0 +1,132 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+    const blogEntries = await getCollection("blog");
+    return blogEntries.map((entry: CollectionEntry<"blog">) => ({
+        params: { slug: entry.slug },
+        props: { entry },
+    }));
+}
+
+type Props = {
+    entry: CollectionEntry<"blog">;
+};
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description}>
+    <article
+        class="prose prose-invert lg:prose-xl max-w-none mb-16 animate-fade-in"
+    >
+        <div class="mb-8 pb-8 border-b border-border-subtle">
+            <h1 class="text-4xl font-extrabold tracking-tight mb-4">
+                {entry.data.title}
+            </h1>
+            <div
+                class="flex items-center gap-4 text-sm font-medium text-text-muted"
+            >
+                <time datetime={entry.data.date.toISOString()}>
+                    {
+                        entry.data.date.toLocaleDateString("en-US", {
+                            timeZone: "UTC",
+                        })
+                    }
+                </time>
+                <span>&bull;</span>
+                <span class="text-text-accent">{entry.data.category}</span>
+            </div>
+        </div>
+        <div class="content-body">
+            <Content />
+        </div>
+    </article>
+</BaseLayout>
+
+<style is:global>
+    .content-body h1,
+    .content-body h2,
+    .content-body h3,
+    .content-body h4 {
+        color: var(--color-text-base);
+        font-weight: 800;
+        margin-top: 2em;
+        margin-bottom: 1em;
+    }
+    .content-body h1 {
+        font-size: 2.25rem;
+    }
+    .content-body h2 {
+        font-size: 1.875rem;
+    }
+    .content-body h3 {
+        font-size: 1.5rem;
+    }
+    .content-body h4 {
+        font-size: 1.25rem;
+    }
+    .content-body p {
+        color: var(--color-text-muted);
+        line-height: 1.8;
+        margin-bottom: 1.5em;
+    }
+    .content-body ul {
+        list-style-type: disc;
+        padding-left: 1.5em;
+        margin-bottom: 1.5em;
+        color: var(--color-text-muted);
+    }
+    .content-body ol {
+        list-style-type: decimal;
+        padding-left: 1.5em;
+        margin-bottom: 1.5em;
+        color: var(--color-text-muted);
+    }
+    .content-body li {
+        margin-bottom: 0.5em;
+        line-height: 1.8;
+    }
+    .content-body a {
+        color: var(--color-text-accent);
+        text-decoration: none;
+    }
+    .content-body a:hover {
+        text-decoration: underline;
+    }
+    .content-body code {
+        background-color: var(--color-bg-surface);
+        padding: 0.2em 0.4em;
+        border-radius: 0.25rem;
+        font-size: 0.875em;
+    }
+    .content-body pre {
+        background-color: var(--color-bg-surface);
+        padding: 1.5em;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+        margin-top: 1.5em;
+        margin-bottom: 1.5em;
+        border: 1px solid var(--color-border-subtle);
+    }
+    .content-body pre code {
+        background-color: transparent;
+        padding: 0;
+        color: inherit;
+    }
+    /* MathJax rendering fixes
+    /* Display math ($$...$$): CHTML output adds display="true" on the container */
+    /* .content-body mjx-container[display="true"] {
+        display: block !important;
+        text-align: center;
+        margin: 1.5em 0;
+        overflow-x: auto;
+    } */
+    /* Inline math ($...$): keep inline within surrounding text */
+    /* .content-body mjx-container:not([display="true"]) {
+        display: inline !important;
+        vertical-align: middle;
+    } */
+</style>

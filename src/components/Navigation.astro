@@ -1,0 +1,43 @@
+---
+const pathname = new URL(Astro.request.url).pathname;
+const currentPath = pathname.slice(1);
+---
+
+<nav
+    class="flex flex-col sm:flex-row items-center justify-between py-6 mb-8 sm:mb-12 border-b border-border-subtle gap-6 sm:gap-0"
+>
+    <div class="text-xl font-bold tracking-tight text-center sm:text-left">
+        <a href="/" class="hover:text-text-accent transition-colors">
+            <p>Sam Ruggerio</p>
+            <p class="text-sm">@surgdev</p>
+        </a>
+    </div>
+    <div
+        class="flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-sm sm:text-base font-medium text-text-muted"
+    >
+        <a
+            href="/"
+            class={`hover:text-text-base transition-colors ${
+                currentPath === "" ? "text-text-base" : ""
+            }`}>Home</a
+        >
+        <a
+            href="/research"
+            class={`hover:text-text-base transition-colors ${
+                currentPath.startsWith("research") ? "text-text-base" : ""
+            }`}>Research</a
+        >
+        <a
+            href="/blog"
+            class={`hover:text-text-base transition-colors ${
+                currentPath.startsWith("blog") ? "text-text-base" : ""
+            }`}>Blog</a
+        >
+        <a
+            href="/resume.pdf"
+            class="px-3 py-1.5 sm:px-4 sm:py-2 bg-white text-[#111] font-bold rounded-full hover:bg-gray-200 transition-colors"
+            target="_blank"
+            rel="noopener noreferrer">Resume</a
+        >
+    </div>
+</nav>

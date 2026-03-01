@@ -1,0 +1,64 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+    post: CollectionEntry<"blog">;
+    compact?: boolean;
+}
+
+const { post, compact = false } = Astro.props;
+---
+
+<a
+    href={`/blog/${post.slug}`}
+    class={`block group bg-bg-surface border border-border-subtle transition-all hover:border-text-muted hover:shadow-lg ${
+        compact
+            ? "rounded-lg p-4 flex flex-col sm:flex-row justify-between gap-4"
+            : "rounded-xl p-6"
+    }`}
+>
+    <div class={compact ? "flex-1" : ""}>
+        <div
+            class="text-xs font-semibold uppercase tracking-wider text-text-accent mb-1"
+        >
+            {post.data.category}
+        </div>
+        <h3
+            class={`font-bold text-text-base group-hover:text-text-accent transition-colors ${
+                compact ? "text-lg mb-1" : "text-xl mb-2"
+            }`}
+        >
+            {post.data.title}
+        </h3>
+        {
+            !compact && (
+                <div class="text-sm font-medium text-text-muted mb-3">
+                    {post.data.date.toLocaleDateString("en-US", {
+                        timeZone: "UTC",
+                    })}
+                </div>
+            )
+        }
+        {
+            post.data.description && (
+                <p
+                    class={`text-text-muted ${
+                        compact ? "text-sm leading-snug" : "leading-relaxed"
+                    }`}
+                >
+                    {post.data.description}
+                </p>
+            )
+        }
+    </div>
+
+    {
+        compact && (
+            <div class="text-sm font-medium text-text-muted shrink-0 sm:mt-1">
+                {post.data.date.toLocaleDateString("en-US", {
+                    timeZone: "UTC",
+                })}
+            </div>
+        )
+    }
+</a>

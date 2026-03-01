@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-subtle: #0d0d0d;
+  --color-bg-base: #111111;
+  --color-bg-surface: #1a1a1a;
+
+  --color-text-base: #ffffff;
+  --color-text-muted: #d4d4d8;
+  --color-text-accent: #60a5fa;
+
+  --color-border-subtle: #27272a;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "Fira Code", "JetBrains Mono", monospace;
+}
+
+@layer base {
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    @apply bg-bg-base text-text-base font-sans antialiased;
+  }
+}
