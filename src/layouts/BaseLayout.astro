@@ -1,7 +1,6 @@
 ---
 import "../styles/global.css";
 import Navigation from "../components/Navigation.astro";
-import { ClientRouter } from "astro:transitions";
 
 interface Props {
     title: string;
@@ -39,7 +38,6 @@ const pathname = new URL(Astro.request.url).pathname;
         <meta property="twitter:description" content={description}/>
 
         <title>{title} · Portfolio</title>
-        <ClientRouter />
     </head>
     <body
         class="bg-bg-base text-text-base font-sans antialiased max-w-4xl mx-auto px-6 lg:px-8 min-h-screen flex flex-col"
